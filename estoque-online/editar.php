@@ -1,0 +1,299 @@
+<?php
+
+    if(!empty($_GET['iditem'])){
+       
+        include_once('config.php');
+
+        $iditem = $_GET['iditem'];
+
+        $sqlSelect = "SELECT * FROM itens WHERE iditem=$iditem";
+
+        $result = $conexao->query($sqlSelect);
+
+        if($result->num_rows > 0){
+            while($user_data = mysqli_fetch_assoc($result)){
+                $nomeitem = $user_data['nomeitem'];
+                $quantitens = $user_data['quantitens'];
+                $valcompraitens = $user_data['valcompraitens'];
+                $valorvendaitens = $user_data['valorvendaitens'];
+            }
+        }else{
+            header('Location: listarproduto.php');
+        }
+    }else{
+        header('Location: listarproduto.php');
+    }
+
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produtos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Open+Sans:wght@300;400;500;600&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial Black';
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(45deg, #3ed6ae, #5ec2d4);
+}
+
+.container {
+    width: 80%;
+    height: 80vh;
+    display: flex;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+    margin: 150px;
+}
+
+.form-image {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fde3a7d7;
+    padding: 1rem;
+}
+
+.form-image img {
+    width: 31rem;
+}
+
+.form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 3rem;
+}
+
+.form-header {
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+}
+
+.login-button button {
+    border: none;
+    background-color: #6c63ff;
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-button button:hover {
+    background-color: #6b63fff1;
+}
+
+.login-button button a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #fff;
+}
+
+.form-header h1::after {
+    content: '';
+    display: block;
+    width: 5rem;
+    height: 0.3rem;
+    background-color: #5ec2d4;
+    margin: 0 auto;
+    position: absolute;
+    border-radius: 10px;
+}
+
+input{
+    border: none;
+    padding: 10px 15px 10px 15px;
+    border-radius: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.1rem;
+}
+
+.input-box input {
+    margin: 0.6rem 0;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 6px #0000001c;
+    font-size: 0.8rem;
+}
+
+.input-box input:hover {
+    background-color: #eeeeee75;
+}
+
+.input-box input:focus-visible {
+    outline: 1px solid #6c63ff;
+}
+
+.input-box label,
+.gender-title h6 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #000000c0;
+}
+
+.input-box input::placeholder {
+    color: #000000be;
+}
+
+.gender-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.62rem;
+    padding: 0 .5rem;
+}
+
+.gender-input {
+    display: flex;
+    align-items: center;
+}
+
+.gender-input input {
+    margin-right: 0.35rem;
+}
+
+.gender-input label {
+    font-size: 0.81rem;
+    font-weight: 600;
+    color: #000000c0;
+}
+
+.continue-button button {
+    width: 100%;
+    margin-top: 2.5rem;
+    border: none;
+    background-color: #6c63ff;
+    padding: 0.62rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.continue-button button:hover {
+    background-color: #6b63fff1;
+}
+
+.continue-button button a {
+    text-decoration: none;
+    font-size: 0.93rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+@media screen and (max-width: 1330px) {
+    .form-image {
+        display: none;
+    }
+    .container {
+        width: 50%;
+    }
+    .form {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1064px) {
+    .container {
+        width: 90%;
+        height: auto;
+    }
+    .input-group {
+        flex-direction: column;
+        z-index: 5;
+        padding-right: 5rem;
+        max-height: 10rem;
+        overflow-y: scroll;
+        flex-wrap: nowrap;
+    }
+    .gender-inputs {
+        margin-top: 2rem;
+    }
+    .gender-group {
+        flex-direction: column;
+    }
+    .gender-title h6 {
+        margin: 0;
+    }
+    .gender-input {
+        margin-top: 0.5rem;
+    }
+    #update:hover{
+            background-image: linear-gradient(45deg, #43abf0, #43abf0);
+        }
+}
+    </style>
+</head>
+<body>
+<div class="container">
+        <div class="form-image">
+            <img src="imagem.webp" alt="">
+        </div>
+        <div class="form">
+            <form action="saveEdit.php" method="POST">
+                <div class="form-header">
+                    <div class="title">
+                        <h1>Editando Produto</h1>
+                    </div>
+                    
+                </div>
+
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="nomeitem">Nome do Produto</label>
+                        <input id="nomeitem" type="text" name="nomeitem" placeholder="Digite o nome do produto" value="<?php echo $nomeitem ?>" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="quantitens">Quantidade</label>
+                        <input id="quantitens" type="text" name="quantitens" placeholder="Digite a quantidade de itens" value="<?php echo $quantitens ?>" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="valcompraitens">Valor de Compra</label>
+                        <input id="valcompraitens" type="text" name="valcompraitens" placeholder="Digite o valor de compra " value="<?php echo $valcompraitens ?>" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="valorvendaitens">Valor de venda</label>
+                        <input id="valorvendaitens" type="text" name="valorvendaitens" placeholder="Digite o valor de venda " value="<?php echo $valorvendaitens ?>" required>
+                    </div>
+
+
+                </div>
+
+               
+                <input type="hidden" name="iditem" value="<?php echo $iditem ?>">
+                <input type="submit" name="update" id="update">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
